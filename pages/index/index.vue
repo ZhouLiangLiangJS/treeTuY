@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<tree-tu-y :serverData="serverData" @change="change"></tree-tu-y>
+		<tree-tu-y :serverData="serverData" @dataChange="change"></tree-tu-y>
 	</view>
 </template>
 
@@ -19,42 +19,6 @@
 							child: [{
 								title: '船舶2001班'
 							}]
-						},
-
-						{
-							title: '船舶专业群',
-							child: [{
-									title: '船舶2001班'
-								},{
-									title: '船舶2001班'
-								}
-							]
-						},
-						{
-							title: '船舶专业群',
-							child: [{
-									title: '船舶2001班'
-								},{
-									title: '船舶2001班'
-								},{
-									title: '船舶2001班'
-								},{
-									title: '船舶2001班'
-								}
-							]
-						},
-						{
-							title: '船舶专业群',
-							child: [{
-									title: '船舶2001班'
-								},{
-									title: '船舶2001班'
-								},{
-									title: '船舶2001班'
-								},{
-									title: '船舶2001班'
-								}
-							]
 						},
 						{
 							title: '船舶专业群',

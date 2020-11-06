@@ -6,13 +6,13 @@
 		<view class="main_cen center">
 			<view class="cen_lei">
 				<view class="cen_button_A">
-					<input style="font-weight: 400;" v-model="data.title" :disabled="flag" />
+					<input style="font-weight: 400;" v-model="data.title" :disabled="flag" placeholder="请输入内容"/>
 					<em class="center-x"></em>
 				</view>
 				<view class="cen_xian" :style="'width:'+(flag?(data.ArrC.length-1):(data.ArrC.length))*200+'px;'"></view>
 				<view class="cen_fenban_box" :style="'width:'+(flag?(data.ArrC.length):(data.ArrC.length+1))*200+'px;'">
 					<view class="cen_fenban" v-for="(item,i) in data.ArrC" :key="i">
-						<input type="text" v-model="item.title" :disabled="flag" />
+						<input type="text" v-model="item.title" :disabled="flag" placeholder="请输入内容"/>
 						<em class="center-x"></em>
 						<text class="svg" v-if="!flag"  @click="delChild(data.ArrC,i)">
 							<svg t="1604300688569" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@
 					success(res) {
 						if (!that.flag) {
 							if (res.confirm) {
-								that.$emit('change', that.data)
+								that.$emit('dataChange', that.data)
 							} else {
 								that.data = { ...that.oldData
 								}
