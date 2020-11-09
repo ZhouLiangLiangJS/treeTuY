@@ -1,45 +1,21 @@
 <template>
-	<view class="main">
-		<view class="xiugai">
-			<view class="xiugai_btn" :style="flag?'':'background:red'" @click="xiugai()">{{flag?'修改':'保存'}}</view>
-		</view>
-		<view class="main_cen center">
-			<view class="cen_lei">
-				<view class="cen_button_A">
-					<input style="font-weight: 400;" v-model="data.title" :disabled="flag" placeholder="请输入内容"/>
-					<em class="center-x"></em>
-				</view>
-				<view class="cen_xian" :style="'width:'+(flag?(data.ArrC.length-1):(data.ArrC.length))*200+'px;'"></view>
-				<view class="cen_fenban_box" :style="'width:'+(flag?(data.ArrC.length):(data.ArrC.length+1))*200+'px;'">
-					<view class="cen_fenban" v-for="(item,i) in data.ArrC" :key="i">
-						<input type="text" v-model="item.title" :disabled="flag" placeholder="请输入内容"/>
-						<em class="center-x"></em>
-						<text class="svg" v-if="!flag"  @click="delChild(data.ArrC,i)">
-							<svg t="1604300688569" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-							 p-id="3072" width="20" height="20">
-								<path d="M512.175497 775.053138c12.68695 0 22.983457-10.296507 22.983457-22.982434L535.158954 430.314583c0-12.685927-10.296507-22.982434-22.982434-22.982434s-22.983457 10.296507-22.983457 22.982434l0 321.755098C489.193063 764.756631 499.48957 775.053138 512.175497 775.053138z"
-								 p-id="3073"></path>
-								<path d="M650.071124 775.053138c12.685927 0 22.982434-10.296507 22.982434-22.982434L673.053558 430.314583c0-12.685927-10.296507-22.982434-22.982434-22.982434s-22.982434 10.296507-22.982434 22.982434l0 321.755098C627.08869 764.756631 637.384174 775.053138 650.071124 775.053138z"
-								 p-id="3074"></path>
-								<path d="M374.280894 775.053138c12.685927 0 22.982434-10.296507 22.982434-22.982434L397.263327 430.314583c0-12.685927-10.296507-22.982434-22.982434-22.982434s-22.982434 10.296507-22.982434 22.982434l0 321.755098C351.29846 764.756631 361.593943 775.053138 374.280894 775.053138z"
-								 p-id="3075"></path>
-								<path d="M833.930595 154.525376 696.035992 154.525376 696.035992 108.559485c0-25.372877-20.590967-45.964868-45.964868-45.964868L374.280894 62.594617c-25.372877 0-45.965891 20.546965-45.965891 45.964868l0 45.964868L190.420399 154.524352c-25.372877 0-45.964868 20.591991-45.964868 45.964868l0 45.964868c0 25.372877 20.591991 45.964868 45.964868 45.964868l0 574.563918c0 50.745754 41.138956 91.928712 91.930759 91.928712l459.650725 0.002047c50.745754 0 91.929736-41.138956 91.929736-91.930759L833.931618 292.419979c25.372877 0 45.965891-20.545942 45.965891-45.964868l0-45.964868C879.896486 175.117366 859.303472 154.525376 833.930595 154.525376zM374.280894 129.496329c0-12.685927 10.296507-22.982434 22.982434-22.982434l229.825362 0c12.68695 0 22.982434 10.296507 22.982434 22.982434l0 22.982434c-22.246677 0-275.79023 0-275.79023 0L374.280894 129.496329zM787.966751 866.983897c0 25.372877-20.593014 45.963845-45.965891 45.963845L282.351158 912.947741c-25.3739 0-45.965891-20.590967-45.965891-45.963845L236.385267 292.419979c31.578206 0 525.748119 0 551.582507 0L787.967774 866.983897zM810.948161 246.455111 213.402833 246.455111c-12.685927 0-22.982434-10.296507-22.982434-22.981411 0-12.685927 10.296507-22.982434 22.982434-22.982434l597.546352 0c12.685927 0 22.982434 10.296507 22.982434 22.982434C833.930595 236.158604 823.635111 246.455111 810.948161 246.455111z"
-								 p-id="3076"></path>
-							</svg>
-						</text>
+	<view class="ov">
+		<view class="main" :style="'width:'+(flag?(data.ArrC.length):(data.ArrC.length+1))*200+'px;'">
+			<view class="xiugai">
+				<view class="xiugai_btn" :style="flag?'':'background:red'" @click="xiugai()">{{flag?'修改':'保存'}}</view>
+			</view>
+			<view class="main_cen center">
+				<view class="cen_lei">
+					<view class="cen_button_A" @click="kongzhi(false)">
+						<input style="font-weight: 400;" v-model="data.title" :disabled="flag" placeholder="请输入内容" />
+						<em class="center-x"  v-if="dataFlag.title"></em>
 					</view>
-					<view class="cen_fenban" style="cursor: pointer;" @click="addItem()" v-if="!flag">
-						<text>+</text>
-						<em class="center-x"></em>
-					</view>
-				</view>
-				<view class="clearfix">
-					<view class="cen_fenban_child" v-for="(item,i) in data.ArrC" :key="i">
-						<view class="cen_fenban_child_leftX" v-if="!item.child.length==0||!flag" :style="'height:'+(((flag?(item.child.length):(item.child.length+1))*60)-20)+'px;'"></view>
-						<view class="cen_fenban_child_box" v-for="(child,n) in item.child" :key="n">
-							<input type="text" v-model="child.title" placeholder="请输入内容" :disabled="flag" />
-							<em class="center-y"></em>
-							<text class="svg" v-if="!flag" @click="delChild(item.child,n)">
+					<view class="cen_xian"  v-if="dataFlag.title" :style="'width:'+(flag?(data.ArrC.length-1):(data.ArrC.length))*200+'px;'"></view>
+					<view class="cen_fenban_box" :style="'width:'+(flag?(data.ArrC.length):(data.ArrC.length+1))*200+'px;'"  v-if="dataFlag.title">
+						<view class="cen_fenban" v-for="(item,i) in data.ArrC" :key="i" @click="kongzhi(true,i)">
+							<input type="text" v-model="item.title" :disabled="flag" placeholder="请输入内容" />
+							<em class="center-x"></em>
+							<text class="svg" v-if="!flag" @click="delChild(data.ArrC,i)">
 								<svg t="1604300688569" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
 								 p-id="3072" width="20" height="20">
 									<path d="M512.175497 775.053138c12.68695 0 22.983457-10.296507 22.983457-22.982434L535.158954 430.314583c0-12.685927-10.296507-22.982434-22.982434-22.982434s-22.983457 10.296507-22.983457 22.982434l0 321.755098C489.193063 764.756631 499.48957 775.053138 512.175497 775.053138z"
@@ -53,9 +29,35 @@
 								</svg>
 							</text>
 						</view>
-						<view style="cursor: pointer;" class="cen_fenban_child_box" @click="addChild(i)" v-if="!flag">
+						<view class="cen_fenban" style="cursor: pointer;" @click="addItem()" v-if="!flag">
 							<text>+</text>
-							<em class="center-y"></em>
+							<em class="center-x"></em>
+						</view>
+					</view>
+					<view class="clearfix" v-if="dataFlag.title">
+						<view class="cen_fenban_child" v-for="(item,i) in data.ArrC" :key="i" v-if="dataFlag.child[i]">
+							<view class="cen_fenban_child_leftX" v-if="!item.child.length==0||!flag" :style="'height:'+(((flag?(item.child.length):(item.child.length+1))*60)-20)+'px;'"></view>
+							<view class="cen_fenban_child_box" v-for="(child,n) in item.child" :key="n">
+								<input type="text" v-model="child.title" placeholder="请输入内容" :disabled="flag" />
+								<em class="center-y"></em>
+								<text class="svg" v-if="!flag" @click="delChild(item.child,n)">
+									<svg t="1604300688569" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+									 p-id="3072" width="20" height="20">
+										<path d="M512.175497 775.053138c12.68695 0 22.983457-10.296507 22.983457-22.982434L535.158954 430.314583c0-12.685927-10.296507-22.982434-22.982434-22.982434s-22.983457 10.296507-22.983457 22.982434l0 321.755098C489.193063 764.756631 499.48957 775.053138 512.175497 775.053138z"
+										 p-id="3073"></path>
+										<path d="M650.071124 775.053138c12.685927 0 22.982434-10.296507 22.982434-22.982434L673.053558 430.314583c0-12.685927-10.296507-22.982434-22.982434-22.982434s-22.982434 10.296507-22.982434 22.982434l0 321.755098C627.08869 764.756631 637.384174 775.053138 650.071124 775.053138z"
+										 p-id="3074"></path>
+										<path d="M374.280894 775.053138c12.685927 0 22.982434-10.296507 22.982434-22.982434L397.263327 430.314583c0-12.685927-10.296507-22.982434-22.982434-22.982434s-22.982434 10.296507-22.982434 22.982434l0 321.755098C351.29846 764.756631 361.593943 775.053138 374.280894 775.053138z"
+										 p-id="3075"></path>
+										<path d="M833.930595 154.525376 696.035992 154.525376 696.035992 108.559485c0-25.372877-20.590967-45.964868-45.964868-45.964868L374.280894 62.594617c-25.372877 0-45.965891 20.546965-45.965891 45.964868l0 45.964868L190.420399 154.524352c-25.372877 0-45.964868 20.591991-45.964868 45.964868l0 45.964868c0 25.372877 20.591991 45.964868 45.964868 45.964868l0 574.563918c0 50.745754 41.138956 91.928712 91.930759 91.928712l459.650725 0.002047c50.745754 0 91.929736-41.138956 91.929736-91.930759L833.931618 292.419979c25.372877 0 45.965891-20.545942 45.965891-45.964868l0-45.964868C879.896486 175.117366 859.303472 154.525376 833.930595 154.525376zM374.280894 129.496329c0-12.685927 10.296507-22.982434 22.982434-22.982434l229.825362 0c12.68695 0 22.982434 10.296507 22.982434 22.982434l0 22.982434c-22.246677 0-275.79023 0-275.79023 0L374.280894 129.496329zM787.966751 866.983897c0 25.372877-20.593014 45.963845-45.965891 45.963845L282.351158 912.947741c-25.3739 0-45.965891-20.590967-45.965891-45.963845L236.385267 292.419979c31.578206 0 525.748119 0 551.582507 0L787.967774 866.983897zM810.948161 246.455111 213.402833 246.455111c-12.685927 0-22.982434-10.296507-22.982434-22.981411 0-12.685927 10.296507-22.982434 22.982434-22.982434l597.546352 0c12.685927 0 22.982434 10.296507 22.982434 22.982434C833.930595 236.158604 823.635111 246.455111 810.948161 246.455111z"
+										 p-id="3076"></path>
+									</svg>
+								</text>
+							</view>
+							<view style="cursor: pointer;" class="cen_fenban_child_box" @click="addChild(i)" v-if="!flag">
+								<text>+</text>
+								<em class="center-y"></em>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -70,19 +72,48 @@
 			return {
 				flag: true,
 				data: {},
-				oldData: {}
+				oldData: {},
+				dataFlag: {
+					title: true,
+					child: []
+				}
 			}
 		},
 		props: {
 			serverData: {}
 		},
+		watch: {
+			data(newdata) {
+				this.upflag()
+			},
+			flag(newdata){
+				if(!newdata){
+					this.upflag()
+				}
+			}
+		},
 		created() {
 			this.data = this.$props.serverData
 		},
 		methods: {
-			delChild(n,i){
-				console.log(n,i)
-				n.splice(i,1)
+			upflag(){
+				let arr = [];
+				for (let i in this.data.ArrC) {
+					arr.push(true)
+				}
+				this.dataFlag.child = arr;
+			},
+			kongzhi(item, i) {
+				if(this.flag){
+					if (item) {
+						this.$set(this.dataFlag.child, i, !this.dataFlag.child[i])
+					} else {
+						this.$set(this.dataFlag, 'title', !this.dataFlag.title)
+					}
+				}
+			},
+			delChild(n, i) {
+				n.splice(i, 1)
 			},
 			xiugai() {
 				let content = "";
@@ -136,6 +167,10 @@
 		visibility: hidden;
 	}
 
+	.ov {
+		overflow: scroll;
+	}
+
 	.clearfix {
 		*zoom: 1;
 	}
@@ -145,7 +180,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		overflow-x: scroll;
+		margin: 0 auto;
+		/* overflow-x: scroll; */
 	}
 
 	.main_nav {
@@ -163,9 +199,7 @@
 		box-shadow: 2px 2px 4px #909193;
 	}
 
-	.main_cen {
-		background-color: #FFFFFF;
-	}
+	.main_cen {}
 
 	.cen_lei {
 		padding: 50px 30px;
@@ -245,6 +279,7 @@
 		box-shadow: 2px 2px 4px #909193;
 		position: relative;
 	}
+	
 
 
 	.cen_fenban>text {
