@@ -35,9 +35,9 @@
 						</view>
 					</view>
 					<view class="clearfix" v-if="dataFlag.title">
-						<view class="cen_fenban_child" v-for="(item,i) in data.ArrC" :key="i" v-if="dataFlag.child[i]">
-							<view class="cen_fenban_child_leftX" v-if="!item.child.length==0||!flag" :style="'height:'+(((flag?(item.child.length):(item.child.length+1))*60)-20)+'px;'"></view>
-							<view class="cen_fenban_child_box" v-for="(child,n) in item.child" :key="n">
+						<view class="cen_fenban_child" v-for="(item,i) in data.ArrC" :key="i" >
+							<view class="cen_fenban_child_leftX" v-show="dataFlag.child[i]" v-if="!item.child.length==0||!flag" :style="'height:'+(((flag?(item.child.length):(item.child.length+1))*60)-20)+'px;'"></view>
+							<view class="cen_fenban_child_box" v-show="dataFlag.child[i]" v-for="(child,n) in item.child" :key="n">
 								<input type="text" v-model="child.title" placeholder="请输入内容" :disabled="flag" />
 								<em class="center-y"></em>
 								<text class="svg" v-if="!flag" @click="delChild(item.child,n)">
@@ -148,11 +148,13 @@
 
 					]
 				})
+				this.data = JSON.parse(JSON.stringify(this.data));
 			},
 			addChild(i) {
 				this.data.ArrC[i].child.push({
 					title: '',
 				})
+				this.data = JSON.parse(JSON.stringify(this.data));
 			}
 		}
 	}
